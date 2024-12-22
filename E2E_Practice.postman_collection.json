@@ -1,0 +1,364 @@
+{
+	"info": {
+		"_postman_id": "ea14639e-195c-4e8b-8b13-cd7936eb7af3",
+		"name": "E2E Practice",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "23024621"
+	},
+	"item": [
+		{
+			"name": "Login",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"status\",()=>\r",
+							"{\r",
+							"    pm.response.to.have.status(200);\r",
+							"})\r",
+							"\r",
+							"var re=pm.response.json();\r",
+							"\r",
+							"pm.environment.set(\"userId\",re.userId);\r",
+							"\r",
+							"pm.collectionVariables.set(\"access_token\",re.token);"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"userEmail\": \"{{userEmail}}\", \r\n    \"userPassword\": \"{{userPassword}}\"\r\n\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_URL}}/api/ecom/auth/login",
+					"host": [
+						"{{base_URL}}"
+					],
+					"path": [
+						"api",
+						"ecom",
+						"auth",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add Product to Cart",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"status\",()=>\r",
+							"{\r",
+							"    pm.response.to.have.status(200);\r",
+							"})\r",
+							"\r",
+							"var rem=pm.response.json();\r",
+							"\r",
+							"pm.test(\"final msg reswponse\",() =>{\r",
+							"\r",
+							"    pm.expect(rem.message).to.eql(\"Product Added To Cart\");\r",
+							"\r",
+							"})"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MzIwODBiMGM0ZDBjNTFmNGYxZjMzYjkiLCJ1c2VyRW1haWwiOiJraXJhbnRqNDE5N0B5YWhvby5jb20iLCJ1c2VyTW9iaWxlIjo5NTI0MTE0MjA2LCJ1c2VyUm9sZSI6ImN1c3RvbWVyIiwiaWF0IjoxNzM0NjE1MzM4LCJleHAiOjE3NjYxNzI5Mzh9.J2QqjIF7l67BztRtv-6UujBnApqsyPRgUyW7AzLTYWU",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"_id\": \"{{userId}}\",\r\n  \"product\": {\r\n    \"_id\": \"6581ca399fd99c85e8ee7f45\",\r\n    \"productName\": \"ZARA COAT 3\",\r\n    \"productCategory\": \"fashion\",\r\n    \"productSubCategory\": \"shirts\",\r\n    \"productPrice\": 31500,\r\n    \"productDescription\": \"Zara coat for Women and girls\",\r\n    \"productImage\": \"https://rahulshettyacademy.com/api/ecom/uploads/productImage_1650649434146.jpeg\",\r\n    \"productRating\": \"0\",\r\n    \"productTotalOrders\": \"0\",\r\n    \"productStatus\": true,\r\n    \"productFor\": \"women\",\r\n    \"productAddedBy\": \"admin@gmail.com\",\r\n    \"__v\": 0\r\n  }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_URL}}/api/ecom/user/add-to-cart",
+					"host": [
+						"{{base_URL}}"
+					],
+					"path": [
+						"api",
+						"ecom",
+						"user",
+						"add-to-cart"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "cart content",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"status\",()=>\r",
+							"{\r",
+							"    pm.response.to.have.status(200);\r",
+							"})\r",
+							"\r",
+							"var rem=pm.response.json();\r",
+							"\r",
+							"pm.test(\"final msg reswponse\",() =>{\r",
+							"\r",
+							"    pm.expect(rem.message).to.eql(\"Cart Data Found\");\r",
+							"\r",
+							"})"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MzIwODBiMGM0ZDBjNTFmNGYxZjMzYjkiLCJ1c2VyRW1haWwiOiJraXJhbnRqNDE5N0B5YWhvby5jb20iLCJ1c2VyTW9iaWxlIjo5NTI0MTE0MjA2LCJ1c2VyUm9sZSI6ImN1c3RvbWVyIiwiaWF0IjoxNzM0NzQyMzc1LCJleHAiOjE3NjYyOTk5NzV9.iwBxAa7x__bWJ4g12IkEe7MZNi5Zflh8W-Lt3eKVFRQ",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{base_URL}}/api/ecom/user/get-cart-products/{{userId}}",
+					"host": [
+						"{{base_URL}}"
+					],
+					"path": [
+						"api",
+						"ecom",
+						"user",
+						"get-cart-products",
+						"{{userId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "place Order",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"var req=pm.request.body.raw;\r",
+							"\r",
+							"var parsed=JSON.parse(req);\r",
+							"\r",
+							"pm.test(\"validate\",()=>\r",
+							"{\r",
+							"\r",
+							"\r",
+							"parsed.orders.forEach(order =>\r",
+							"{\r",
+							"    console.log(\"i'm here\");\r",
+							"    pm.expect(order).to.have.property(\"country\");\r",
+							"     pm.expect(order).to.have.property(\"productOrderedId\");\r",
+							"\r",
+							"})\r",
+							"\r",
+							"\r",
+							" \r",
+							"})\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code\", function () {\r",
+							"    pm.response.to.have.status(201);\r",
+							"});\r",
+							"\r",
+							"var result=pm.response.json();\r",
+							"\r",
+							"pm.test(\"order id\",()=>\r",
+							"\r",
+							"{\r",
+							"    result.orders.forEach((orderId,index)=>\r",
+							"    {\r",
+							"        var variableName=\"orderId_\"+ (index+ 1);\r",
+							"        pm.environment.set(variableName,orderId);\r",
+							"\r",
+							"    })\r",
+							"}\r",
+							"\r",
+							")\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MzIwODBiMGM0ZDBjNTFmNGYxZjMzYjkiLCJ1c2VyRW1haWwiOiJraXJhbnRqNDE5N0B5YWhvby5jb20iLCJ1c2VyTW9iaWxlIjo5NTI0MTE0MjA2LCJ1c2VyUm9sZSI6ImN1c3RvbWVyIiwiaWF0IjoxNzM0NjE1MzM4LCJleHAiOjE3NjYxNzI5Mzh9.J2QqjIF7l67BztRtv-6UujBnApqsyPRgUyW7AzLTYWU",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"orders\": [\r\n        {\r\n            \"country\": \"Angola\",\r\n            \"productOrderedId\": \"6701364cae2afd4c0b90113c\"\r\n        },\r\n        {\r\n            \"country\": \"Angola\",\r\n            \"productOrderedId\": \"6581ca399fd99c85e8ee7f45\"\r\n        }\r\n    ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_URL}}/api/ecom/order/create-order",
+					"host": [
+						"{{base_URL}}"
+					],
+					"path": [
+						"api",
+						"ecom",
+						"order",
+						"create-order"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Order",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"\r",
+							"\r",
+							"pm.test(\"validating the code\",()=>\r",
+							"{\r",
+							"    pm.response.to.have.status(200);\r",
+							"})\r",
+							"\r",
+							"var out=pm.response.json();\r",
+							"\r",
+							"pm.test(\"response msg\",()=>\r",
+							"{\r",
+							"pm.expect(out.message).to.eql(\"Orders Deleted Successfully\");\r",
+							"})\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MzIwODBiMGM0ZDBjNTFmNGYxZjMzYjkiLCJ1c2VyRW1haWwiOiJraXJhbnRqNDE5N0B5YWhvby5jb20iLCJ1c2VyTW9iaWxlIjo5NTI0MTE0MjA2LCJ1c2VyUm9sZSI6ImN1c3RvbWVyIiwiaWF0IjoxNzM0NzQyMzc1LCJleHAiOjE3NjYyOTk5NzV9.iwBxAa7x__bWJ4g12IkEe7MZNi5Zflh8W-Lt3eKVFRQ",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{base_URL}}/api/ecom/order/delete-order/{{orderId_1}}",
+					"host": [
+						"{{base_URL}}"
+					],
+					"path": [
+						"api",
+						"ecom",
+						"order",
+						"delete-order",
+						"{{orderId_1}}"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "base_URL",
+			"value": "https://rahulshettyacademy.com",
+			"type": "string"
+		},
+		{
+			"key": "userEmail",
+			"value": "kirantj4197@yahoo.com",
+			"type": "string"
+		},
+		{
+			"key": "userPassword",
+			"value": "Kirantj4197#",
+			"type": "string"
+		},
+		{
+			"key": "access_token",
+			"value": ""
+		}
+	]
+}
